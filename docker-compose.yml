@@ -1,0 +1,34 @@
+version: '3'
+services:
+    web:
+        # enable -it
+        stdin_open: true 
+        tty: true
+        # find Dockerfile
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        # open ports
+        ports:
+            - "3000:3000"
+        # map volumes to enable hot-reloading
+        volumes:
+            - /app/node_modules
+            - .:/app
+        environment: 
+            - CHOKIDAR_USEPOLLING=true
+    tests:
+        # enable -it
+        stdin_open: true 
+        tty: true
+        # find Dockerfile
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        # map volumes to enable hot-reloading
+        volumes:
+            - /app/node_modules
+            - .:/app
+        command: ["npm", "run", "test"]
+        environment: 
+            - CHOKIDAR_USEPOLLING=true
